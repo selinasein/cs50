@@ -14,17 +14,21 @@ int main(void)
 
 int getDoubled(long num)
 {
-    printf("Method:getDoubled -> received %li to start\n", num);
     int doubled = 0;
     do
     {
         num /= 10;
 
         int secondLastDigit = num % 10;
-        printf("Now secondLastDigit is: %i\n", secondLastDigit);
 
-        doubled += secondLastDigit * 2;
-        printf("Now doubled is: %i\n", doubled);
+        if (secondLastDigit * 2 > 9)
+        {
+            doubled += secondLastDigit * 2 - 9;
+        }
+        else
+        {
+            doubled += secondLastDigit * 2;
+        }
 
         num /= 10;
     }
@@ -37,22 +41,15 @@ int getTotal(long num, int doubled)
 {
     int sumOfTotal = 0;
 
-    printf("Method: getTotal -> It starts with num:%li, doubled:%i\n", num, doubled);
     do
     {
-        printf("Now the digit is %li\n", num%10);
-
         sumOfTotal += num % 10;
-        printf("Current sumOfTotal is: %i\n", sumOfTotal);
         num /= 100;
     }
     while (num > 0);
 
     sumOfTotal += doubled;
-    printf("Added doubled and sumOfTotal is: %i\n", sumOfTotal);
-
     sumOfTotal %= 10;
-    printf("Get the last digif of sumOfTotal is: %i\n", sumOfTotal);
 
     return (int) sumOfTotal;
 }
@@ -81,8 +78,6 @@ void validateCard(long num)
     int sumOfTotal = getTotal(num, sumOfDoubled);
     int twoDigits = firstTwoDigits(num);
 
-    printf("sumOfDoubled: %i, sumOfTotal: %i, twoDigits: %i\n", sumOfDoubled, sumOfTotal,twoDigits);
-
     if (sumOfTotal != 0)
     {
         printf("INVALID\n");
@@ -93,23 +88,45 @@ void validateCard(long num)
     {
         case 34:
         case 37:
-            printf("AMEX\n");
+            if (num >= 1e14 && num < 1e15)
+            {
+                printf("AMEX\n");
+            }
+            else
+            {
+                printf("INVALID\n");
+            }
             break;
         case 51:
         case 52:
         case 53:
         case 54:
         case 55:
-            printf("MASTERCARD\n");
-            break;
-        default:
-            if (twoDigits / 10 == 4)
+            if (num >= 1e15 && num < 1e16)
             {
-                printf("VISA\n");
+                printf("MASTERCARD\n");
             }
             else
             {
                 printf("INVALID\n");
             }
+            break;
+        default:
+            if (twoDigits / 10 == 4)
+            {
+                if ((num < 1e13 && num >= 1e12) || (num >= 1e15 && num < 1e16))
+                {
+                    printf("VISA\n");
+                }
+                else
+                {
+                    printf("INVALID\n");
+                }
+            }
+            else
+            {
+                printf("INVALID\n");
+            }
+            break;
     }
 }
