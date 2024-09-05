@@ -59,7 +59,7 @@ int getPlayersScores(void)
         int playerScore = 0;
         while (players[i][n] != '\0')
         {
-            int index = (int) players[i][n] - 65;
+            int index = players[i][n] - 65;
             playerScore = playerScore + scores[index];
             n++;
         }
