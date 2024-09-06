@@ -25,15 +25,15 @@ int main(int argc, string argv[])
     string plaintext = get_string("plaintext: ");
 
     int length = strlen(plaintext);
-    char cyphertext[length];
+    char ciphertext[length + 1];
 
     for (int i = 0; i < length; i++)
     {
-        cyphertext[i] = rotate(plaintext[i], key);
+        ciphertext[i] = rotate(plaintext[i], key);
     }
-    cyphertext[length] = '\0';
+    ciphertext[length] = '\0';
 
-    printf("ciphertext: %s\n", cyphertext);
+    printf("ciphertext: %s\n", ciphertext);
 }
 
 bool only_digits(string argument)
